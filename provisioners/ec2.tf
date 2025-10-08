@@ -21,9 +21,7 @@ resource "aws_security_group" "mysg" {
     tags = {
       Name = "My-SG"
     }
-
-   
-  
+ 
 }
 
 
@@ -56,6 +54,14 @@ resource "aws_instance" "myec2" {
             "sudo dnf install ansible-y",
             "sudo dnf install nginx -y",
             "sudo dnf systemctl start nginx",
+         ]
+      
+    }
+
+    provisioner "remote-exec" {
+        when = destroy
+        inline = [ 
+            "sudo systemctl stop nginx"
          ]
       
     }
